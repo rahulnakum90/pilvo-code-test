@@ -35,6 +35,7 @@ public class BaseTest {
 
             driver.manage().window().maximize();
             login.login(properties.getProperty("user"),properties.getProperty("password"));
+            driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
             System.out.println("logged in");
         }
     }

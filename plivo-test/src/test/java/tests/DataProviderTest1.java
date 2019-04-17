@@ -18,9 +18,9 @@ public class DataProviderTest1 extends BaseTest {
         return dataList.toArray();
     }
 
-    @Test
-    public void createNewContact() throws IOException {
-        //System.out.println("first Name - " + dataMap.get("FirstName"));
+    @Test(dataProvider = "ContactData")
+    public void createNewContact(Map<String,Object>dataMap) throws IOException {
+        System.out.println("first Name - " + dataMap.get("FirstName"));
 
     }
 }
