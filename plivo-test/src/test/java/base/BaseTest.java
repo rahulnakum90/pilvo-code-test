@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utils.Login;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,9 +22,10 @@ public class BaseTest {
     public static Properties properties;
     private static ExtentReports extent;
     ExtentTest testLog;
-
+    Login login;
     @BeforeClass
     public void beforeClass() {
+        login=new Login();
         String browserName = properties.getProperty("Browser");
 
         if (browserName.equals("chrome")) {
@@ -32,7 +34,8 @@ public class BaseTest {
             driver = new ChromeDriver();
 
             driver.manage().window().maximize();
-            driver.get(properties.getProperty("URL"));
+            login.login(properties.getProperty("user"),properties.getProperty("password"));
+            System.out.println("logged in");
         }
     }
 

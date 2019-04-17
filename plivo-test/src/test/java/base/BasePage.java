@@ -1,4 +1,6 @@
 package base;
 
-public class BasePage {
+public class BasePage extends  BaseTest {
+
+
 }

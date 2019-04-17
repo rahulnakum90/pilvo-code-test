@@ -1,0 +1,8 @@
+.idea
+.idea/
+**/.gradle/*
+.out/*/**
+**/.gradle/*
+4.10/
+*.gradle
+plivo-test/
