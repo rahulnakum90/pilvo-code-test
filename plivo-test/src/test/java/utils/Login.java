@@ -13,5 +13,6 @@ public class Login extends BasePage {
         driver.navigate().to(properties.getProperty("URL") + "login?");
         driver.findElement(inputUsername).sendKeys(user);
         driver.findElement(inputPassword).sendKeys(pwd);
+        driver.findElement(btnLogin).click();
     }
 }
