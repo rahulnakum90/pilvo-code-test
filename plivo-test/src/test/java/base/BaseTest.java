@@ -5,6 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utils.Login;
@@ -37,6 +38,7 @@ public class BaseTest {
             login.login(properties.getProperty("user"),properties.getProperty("password"));
             driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
             System.out.println("logged in");
+            Assert.assertEquals(login.homePageTitle,"My Dashboard","Home Page title is not matched");
         }
     }
 
