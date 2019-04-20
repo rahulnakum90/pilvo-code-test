@@ -5,6 +5,8 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -19,14 +21,15 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    public static WebDriver driver;
+    public WebDriver driver;
     public static Properties properties;
     private static ExtentReports extent;
     ExtentTest testLog;
     Login login;
+    protected Wait wait;
     @BeforeClass
     public void beforeClass() {
-        login=new Login();
+
         String browserName = properties.getProperty("Browser");
 
         if (browserName.equals("chrome")) {
@@ -35,10 +38,13 @@ public class BaseTest {
             driver = new ChromeDriver();
 
             driver.manage().window().maximize();
+            wait = new WebDriverWait(driver,10);
+            login=new Login(driver);
             login.login(properties.getProperty("user"),properties.getProperty("password"));
             driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
             System.out.println("logged in");
-            Assert.assertEquals(login.homePageTitle,"My Dashboard","Home Page title is not matched");
+
+
         }
     }
 
@@ -46,9 +52,28 @@ public class BaseTest {
     public void OneTimeSetup(){
         //Read properties
         try {
+            FileInputStream fis;
             properties = new Properties();
-            FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/project.properties");
+            fis = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/project.properties");
             properties.load(fis);
+
+            //merge properties based on environment
+            switch (properties.getProperty("env")){
+                case "staging":
+                    fis = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/staging.properties");
+                    properties.load(fis);
+                    break;
+                case "staging2":
+                    fis = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/staging2.properties");
+                    properties.load(fis);
+                    break;
+                case "aetna":
+                    fis = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/aetna.properties");
+                    properties.load(fis);
+                    break;
+                default:
+                    break;
+            }
         }
         catch(Exception e){
             e.printStackTrace();
