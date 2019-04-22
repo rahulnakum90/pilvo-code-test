@@ -25,8 +25,14 @@ public class Login extends BasePage {
         loginDriver.navigate().to(properties.getProperty("URL") + "login?");
         loginDriver.findElement(inputUsername).sendKeys(user);
         loginDriver.findElement(inputPassword).sendKeys(pwd);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         loginDriver.findElement(btnLogin).click();
         wait = new WebDriverWait(loginDriver,10);
+
         wait.until(ExpectedConditions.invisibilityOfElementLocated(btnLogin));
         //select role if displayed
         if(loginDriver.getCurrentUrl().contains("role-select")){

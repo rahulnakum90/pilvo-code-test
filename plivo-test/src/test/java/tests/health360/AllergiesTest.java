@@ -59,13 +59,33 @@ public class AllergiesTest extends AllergiesPage {
         driver.findElement(inputAllergy).sendKeys(testData.get("inputAllergy"));
         new Select(driver.findElement(selectInformationSource)).selectByIndex(1);
         reliableClick(btnSave);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(messageContainer));
         Assert.assertEquals(driver.findElement(messageContainer).getText().trim(),"Saved!","Saved message is not displayed");
         try{reliableClick(messageContainer);}catch (Exception e){}
         reliableClick(allergieLink);
         reliableClick(btnTableView);
         Assert.assertTrue(driver.findElement(By.xpath(singleTableXpath)).getText().contains(testData.get("inputAllergy")));
         Assert.assertEquals(calculateRowCountInTable(singleTableXpath),rowCountBeforeAdd+1,"Table row count are not matched");
+    }
 
-
+    @Test
+    public void validateEditRecord(){
+        Map<String,String> testData =new HashMap<String,String>() {{
+            put("inputAllergy", "TestAllergy_"+ RandomStringUtils.randomAlphanumeric(5));
+        }};
+        reliableClick(allergieLink);
+        reliableClick(btnTableView);
+        int rowCountBeforeAdd = calculateRowCountInTable(singleTableXpath);
+        reliableClick(linkFirstRecord);
+        clearInputFieldUsingJavaScript(driver.findElement(inputAllergy));
+        driver.findElement(inputAllergy).sendKeys(testData.get("inputAllergy"));
+        reliableClick(btnSave);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(messageContainer));
+        Assert.assertEquals(driver.findElement(messageContainer).getText().trim(),"Saved!","Saved message is not displayed");
+        try{reliableClick(messageContainer);}catch (Exception e){}
+        reliableClick(allergieLink);
+        reliableClick(btnTableView);
+        Assert.assertTrue(driver.findElement(By.xpath(singleTableXpath)).getText().contains(testData.get("inputAllergy")),"Edited value not found in table");
+        Assert.assertEquals(calculateRowCountInTable(singleTableXpath),rowCountBeforeAdd,"Table row count are not matched");
     }
 }

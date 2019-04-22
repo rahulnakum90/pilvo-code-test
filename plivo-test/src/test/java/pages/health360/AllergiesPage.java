@@ -7,6 +7,7 @@ public class AllergiesPage extends BasePage {
     public By allergieLink = By.linkText("Allergies");
     public By inputAllergy = By.id("Allergy");
     public By selectInformationSource = By.id("InformationSource");
+    public By linkFirstRecord = By.xpath("//table//a");
 
     //public By
 }

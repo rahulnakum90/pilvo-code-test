@@ -1,6 +1,8 @@
 package base;
 
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -35,6 +37,11 @@ public class BasePage extends  BaseTest {
         String rowXpath = tableXpath+"//tbody//tr";
         return driver.findElements(By.xpath(rowXpath)).size();
 
+    }
+
+    public void clearInputFieldUsingJavaScript(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].value='';", element);
     }
 
 
