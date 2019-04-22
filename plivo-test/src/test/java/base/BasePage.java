@@ -15,6 +15,10 @@ public class BasePage extends  BaseTest {
     public By btnCardView = By.xpath("//mat-button-toggle[@value='Card']//button");
     public String singleTableXpath = "//table";
     public By tagCardView = By.xpath("//*[@class='list']");
+    public By btnNew = By.id("btnAddNew");
+    public By btnSave = By.id("btnSave");
+    public By messageContainer = By.xpath("//div[@id='toast-container']//div[@role='alertdialog']");
+
 
     public void validateButtonFilters(List expectedHeaderList){
 
@@ -27,11 +31,20 @@ public class BasePage extends  BaseTest {
         return driver.findElements(By.xpath(headersXpath)).stream().map(header -> header.getText().trim()).collect(Collectors.toList());
     }
 
+    public int calculateRowCountInTable(String tableXpath){
+        String rowXpath = tableXpath+"//tbody//tr";
+        return driver.findElements(By.xpath(rowXpath)).size();
+
+    }
+
+
+
     public void reliableClick(By locator){
-        int MAX_TRY = 2;
+        int MAX_TRY = 3;
         int retry = 0;
         while (retry<MAX_TRY){
             try {
+                try{Thread.sleep(500);}catch (Exception e){}
                 wait.until(ExpectedConditions.elementToBeClickable(locator));
                 driver.findElement(locator).click();
                 break;
@@ -39,7 +52,7 @@ public class BasePage extends  BaseTest {
             catch (Exception e){
                 retry++;
                 if(retry==MAX_TRY){
-                    throw e;
+                        throw e;
                 }
             }
         }
