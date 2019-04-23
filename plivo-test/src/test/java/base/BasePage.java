@@ -25,9 +25,10 @@ public class BasePage extends  BaseTest {
     public By btnVoidInDropdown = By.xpath("//*[text()=' Void ']");
     public By selectVoidReason = By.id("Reason");
     public By btnVoid = By.xpath("//*[text()='Void']");
-    public By voidSuccessful = By.xpath("//*[text()=' Void Successful ']");
     public By linkFirstRecord = By.xpath("//table//a");
-
+    public By linkCopyRecord = By.xpath("//*[text()=' Copy ']");
+    public By btnBack = By.id("btnBack");
+    public By btnContinuewithoutsaving = By.xpath("//span[text()='Continue without saving']");
 
     public void validateButtonFilters(List expectedHeaderList){
 
