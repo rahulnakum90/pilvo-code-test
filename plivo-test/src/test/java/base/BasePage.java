@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public class BasePage extends  BaseTest {
     public By btnNew = By.id("btnAddNew");
     public By btnSave = By.id("btnSave");
     public By messageContainer = By.xpath("//div[@id='toast-container']//div[@role='alertdialog']");
+    public By btndeletedropdown = By.xpath("//*[@class='btn btn-secondary btn-min mat-raised-button']");
+    public By btnVoidInDropdown = By.xpath("//*[text()=' Void ']");
+    public By selectVoidReason = By.id("Reason");
+    public By btnVoid = By.xpath("//*[text()='Void']");
+    public By voidSuccessful = By.xpath("//*[text()=' Void Successful ']");
+    public By linkFirstRecord = By.xpath("//table//a");
 
 
     public void validateButtonFilters(List expectedHeaderList){
@@ -42,6 +49,16 @@ public class BasePage extends  BaseTest {
     public void clearInputFieldUsingJavaScript(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("arguments[0].value='';", element);
+    }
+
+    public void deleteRecord(){
+        reliableClick(btndeletedropdown);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btnVoidInDropdown));
+        reliableClick(btnVoidInDropdown);
+        new Select(driver.findElement(selectVoidReason)).selectByIndex(1);
+        reliableClick(btnVoid);
+        Assert.assertEquals(driver.findElement(messageContainer).getText().trim(),"Void Successful","Void Successful message is not verified");
+        try{reliableClick(messageContainer);}catch (Exception e){}
     }
 
 
